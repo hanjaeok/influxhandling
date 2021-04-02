@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Influx DB Graph Ex</title>
+</head>
+<body>
+<h1>Influx DB Graph Example</h1>
+<br/>
+
+<form>
+    pig : <input type="text" id="pigId" /><br>
+    날짜 : <input type="date" id="date" /><br>
+    시간 : <input type="time" id="time" /><br>
+    <input type="button" onClick="checkForm();">
+</form>
+
+<div id="chart"></div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+    function checkForm(){
+        var data ={
+            pigId : $("#pigId").val(),
+            date : $("#date").val(),
+            time : $("#time").val()
+        }
+
+        $.ajax({
+           url : '/inputData',
+           dataType: 'json',
+           data: data,
+           type: 'GET',
+           success : function(rs){
+               console.log(rs);
+               var options = {
+                   series: [{
+                       name: "누워있음",
+                       data: [
+                           parseInt(rs.data[0].lie),
+                           parseInt(rs.data[3].lie),
+                           parseInt(rs.data[6].lie),
+                           parseInt(rs.data[9].lie),
+                           parseInt(rs.data[12].lie),
+                           parseInt(rs.data[15].lie),
+                           parseInt(rs.data[18].lie),
+                           parseInt(rs.data[21].lie),
+                           parseInt(rs.data[24].lie),
+                           parseInt(rs.data[27].lie),
+                           parseInt(rs.data[29].lie)]
+                   },{
+                       name: "앉아있음",
+                       data: [
+                           parseInt(rs.data[0].sit),
+                           parseInt(rs.data[3].sit),
+                           parseInt(rs.data[6].sit),
+                           parseInt(rs.data[9].sit),
+                           parseInt(rs.data[12].sit),
+                           parseInt(rs.data[15].sit),
+                           parseInt(rs.data[18].sit),
+                           parseInt(rs.data[21].sit),
+                           parseInt(rs.data[24].sit),
+                           parseInt(rs.data[28].sit),
+                           parseInt(rs.data[29].sit)]
+                   },{
+                       name: "서있음",
+                       data: [
+                           parseInt(rs.data[0].stand),
+                           parseInt(rs.data[3].stand),
+                           parseInt(rs.data[6].stand),
+                           parseInt(rs.data[9].stand),
+                           parseInt(rs.data[12].stand),
+                           parseInt(rs.data[15].stand),
+                           parseInt(rs.data[18].stand),
+                           parseInt(rs.data[21].stand),
+                           parseInt(rs.data[24].stand),
+                           parseInt(rs.data[27].stand),
+                           parseInt(rs.data[29].stand)]
+                   }],
+                   chart: {
+                       type: 'line',
+                       height: 350
+                   },
+                   labels:[
+                       rs.data[0].time, rs.data[3].time, rs.data[6].time, rs.data[9].time, rs.data[12].time, rs.data[15].time, rs.data[18].time, rs.data[21].time, rs.data[24].time, rs.data[27].time, rs.data[29].time
+                   ],
+                   stroke: {
+                       curve: 'stepline',
+                   },
+                   fill: {
+                       colors: undefined,
+                       opacity: 0.9,
+                       type: 'solid',
+                       gradient: {
+                           shade: 'dark',
+                           type: "horizontal",
+                           shadeIntensity: 0.5,
+                           gradientToColors: undefined,
+                           inverseColors: true,
+                           opacityFrom: 1,
+                           opacityTo: 1,
+                           stops: [0, 50, 100],
+                           colorStops: []
+                       },
+                       image: {
+                           src: [],
+                           width: undefined,
+                           height: undefined
+                       },
+                       pattern: {
+                           style: 'verticalLines',
+                           width: 6,
+                           height: 6,
+                           strokeWidth: 2,
+                       },
+                   },
+                   dataLabels: {
+                       enabled: false
+                   },
+                   grid: {
+                       borderColor: "#555",
+                       clipMarkers: false,
+                       yaxis: {
+                           lines: {
+                               show: false
+                           }
+                       }
+                   },
+                   tooltip:{
+                       theme: "dark"
+                   },
+                   title: {
+                       text: 'Stepline Chart',
+                       align: 'left'
+                   },
+                   markers: {
+                       hover: {
+                           sizeOffset: 4
+                       }
+                   }
+               };
+               var chart = new ApexCharts(document.querySelector("#chart"), options);
+               chart.render();
+           }
+
+        });
+
+    }
+</script>
+</body>
+</html>

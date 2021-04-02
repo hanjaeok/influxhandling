@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Influx DB Graph Ex</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(function(){
+            var options = {
+                series: [{
+                    data: [3, 16, 2, 14, 15, 7, 9, 21, 7, 5, 4],
+                },{
+                    data: [11, 2, 3, 1, 10, 13, 7, 8, 21, 22, 3],
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350
+                },
+                stroke: {
+                    curve: 'stepline',
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                title: {
+                    text: 'Stepline Chart',
+                    align: 'left'
+                },
+                markers: {
+                    hover: {
+                        sizeOffset: 4
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        });
+    </script>
+</head>
+<body>
+<h1>Influx DB Graph Example</h1>
+<br/>
+
+<div id="chart"></div>
+
+</body>
+</html>
